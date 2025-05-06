@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_marginVertical="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="Xe buýt hoạt động dịp lễ"
+            android:textSize="24sp"/>
+        <TextView
+            android:textColor="@color/secondary_300"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_medium"
+            android:text="21/12/2024 23:15"
+            android:textSize="14sp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/secondary_500"/>
+        <TextView
+            android:layout_marginVertical="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_medium"
+            android:text="Để đảm bảo phục vụ vận chuyển hành khách trong dịp Lễ Giáng Sinh, Tết năm 2025 sắp đến được thuận lợi, Cơ quan quản lý xe buýt TP. Đồng Hới đã phối hợp với các đơn vị vận tải xây dựng kế hoạch phục vụ cụ thể như sau:"
+            android:textSize="16sp"/>
+        <TextView
+            android:layout_marginVertical="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="* Thời gian phục vụ:"
+            android:textSize="16sp"/>
+        <TextView
+            android:layout_marginVertical="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_medium"
+            android:text="- Lễ Giáng Sinh: Từ ngày 23 tháng 12 năm 2024 đến hết ngày 25 tháng 12 năm 2024."
+            android:textSize="16sp"/>
+        <TextView
+            android:layout_marginVertical="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_medium"
+            android:text="- Tết Dương lịch 2025: Từ ngày 31 tháng 12 năm 2024 đến hết ngày 02 tháng 1 năm 2025."
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_marginVertical="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="* Các tuyến ngưng hoạt động trong các dịp Lễ:"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_marginVertical="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_medium"
+            android:text="- Từ ngày 22/12/2024 đến hết ngày 02/1/2024 và từ ngày 20/1/2025 đến hết ngày 10/2/2025 ngưng hoạt động tuyến B4 (Đồng Hới - Phong Nha)."
+            android:textSize="16sp"/>
+        <TextView
+            android:layout_marginVertical="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_medium"
+            android:text="- Từ ngày 23/12/2024 đến hết ngày 02/1/2025 và từ ngày 20/1/2025 đến hết ngày 10/2/2025 ngưng hoạt động tuyến B2 (Đồng Hới - Kiến Giang)."
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:fontFamily="@font/quicksand_medium"
+            android:text="- Từ ngày 23/12/2024 đến hết ngày 02/1/2025 và từ ngày 20/1/2025 đến hết ngày 10/2/2025 ngưng hoạt động tuyến B1 (Đồng Hới- Ba Đồn)."
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_marginVertical="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="* Riêng tuyến xe buýt số B3 (Đồng Hới - Phong Nha) có sự điều chỉnh thời gian đóng tuyến như sau:"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_marginVertical="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_medium"
+            android:text="- Từ Nhà văn hóa phường Đồng Sơn chuyến cuối xuất bến lúc: 19 giờ 00"
+            android:textSize="16sp"/>
+        <TextView
+            android:layout_marginVertical="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_medium"
+            android:text="- Từ Khu Công nghiệp Tây Bắc Đồng Hới chuyến cuối xuất bến lúc: 19 giờ 30"
+            android:textSize="16sp"/>
+        <TextView
+            android:layout_marginVertical="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_medium"
+            android:text="Thời gian áp dụng kể từ ngày 31/12/2024 đến hết ngày 02/1/2025 và từ ngày 25/1/2025 đến hết ngày 15/2/2025."
+            android:textSize="16sp"/>
+        <TextView
+            android:layout_marginVertical="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_medium"
+            android:text="Ngoài việc tổ chức hoạt động xe buýt nội tỉnh gắn với đặc thù hoạt động của các bến xe liên tỉnh trong dịp Lễ, Trung tâm và các doanh nghiệp vận tải cũng chuẩn bị phương tiện để hỗ trợ các bến xe tăng cường giải tỏa hành khách."
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_marginVertical="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="MyBus đã cập nhật tình hình hoạt động của các tuyến xe vào dịp lễ trên ứng dụng. Bạn có thể yên tâm di chuyển dễ dàng và tiện lợi."
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+</ScrollView>
