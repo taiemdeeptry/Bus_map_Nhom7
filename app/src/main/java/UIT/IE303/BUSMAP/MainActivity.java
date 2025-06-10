@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import UIT.IE303.BUSMAP.address.AddressSearchActivity;
+import UIT.IE303.BUSMAP.chatbox.ChatboxActivity;
 import UIT.IE303.BUSMAP.data.DatabaseHelper;
 import UIT.IE303.BUSMAP.data.StationDAO;
 import UIT.IE303.BUSMAP.feedback.FeedbackActivity;
@@ -136,6 +137,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         initUI();
         // Bắt các sự kiện trên các view
         initListener();
+        ImageView chatBubble = findViewById(R.id.chatBubble);
+        chatBubble.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Mở ChatboxActivity
+                Intent intent = new Intent(MainActivity.this, ChatboxActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     // Load database đơn giản chỉ cần gọi hàm onCreate của lớp DatabaseHelper

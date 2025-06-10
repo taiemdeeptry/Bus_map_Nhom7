@@ -74,6 +74,12 @@
             android:name=".user.InformationActivity"
             android:exported="false" />
         <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".chatbox.ChatboxActivity"
+            android:exported="false"/>
+        <activity
             android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>
@@ -82,9 +88,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
+
     </application>
 
 </manifest>

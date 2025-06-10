@@ -147,9 +147,35 @@
 
             </LinearLayout>
 
+
         </RelativeLayout>
 
     </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Nội dung ứng dụng -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/chatBubble"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_chat_bubble"
+            android:background="@drawable/chat_bubble_background"
+            android:elevation="10dp"
+            android:padding="12dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="120dp"
+            android:contentDescription="Chat Bubble"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"/>
+    </FrameLayout>
+
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nv_group"

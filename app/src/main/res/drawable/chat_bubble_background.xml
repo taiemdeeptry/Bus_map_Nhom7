@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
+    <solid android:color="#1877F2"/> <!-- Màu xanh giống Messenger -->
+    <size android:width="64dp" android:height="64dp"/>
+    <corners android:radius="32dp"/> <!-- Bo góc tròn -->
+    <elevation android:level="10"/>
+</shape>
