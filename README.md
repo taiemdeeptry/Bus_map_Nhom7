@@ -13,3 +13,8 @@
 
 ## CÁC THÔNG TIN LIÊN QUAN
 [link báo cáo]()
+
+## HƯỚNG DẪN CÀI ĐẶT
+B1: Cài đặt Android Studio phiên bản mới nhất.
+B2: Clone dự án về máy.
+B3: 
