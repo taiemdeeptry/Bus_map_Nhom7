@@ -62,7 +62,7 @@ import UIT.IE303.BUSMAP.user.LoginActivity;
 import UIT.IE303.BUSMAP.user.RegisterActivity;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
-//    Ở đây là các biến sẽ ánh xạ các View trong main_layout
+    // Ở đây là các biến sẽ ánh xạ các View trong main_layout
     DrawerLayout drawable_layout;
     NavigationView nv_group;
     Spinner side_spinner;
@@ -71,34 +71,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     TextView tv_name, tv_email;
     Button btn_info, btn_login, btn_search, btn_register;
     ImageButton ib_search, ib_find, ib_logout;
-//   User lưu giá trị của user, nếu bằng null tức là chưa đăng nhập
-//   nếu != null thì có nghĩa là đã đăng nhập
-//   user sẽ được lấy từ UserAccount. Lớp này được viết dựa trên Singleton Pattern
-//   và có synchronized giúp cho việc gọi trong nhiều luồng không làm sai singleton
+    // User lưu giá trị của user, nếu bằng null tức là chưa đăng nhập
+    // nếu != null thì có nghĩa là đã đăng nhập
+    // user sẽ được lấy từ UserAccount. Lớp này được viết dựa trên Singleton Pattern
+    // và có synchronized giúp cho việc gọi trong nhiều luồng không làm sai
+    // singleton
     User user;
-//   address lưu giá trị của địa chỉ được trả veeff khi sử dụng chức năng tìm kiếm địa điểm
+    // address lưu giá trị của địa chỉ được trả veeff khi sử dụng chức năng tìm kiếm
+    // địa điểm
     Address address;
-//   icon dùng để làm marker, có 2 loại icon là big và small
-//   Khi màn hình có độ phóng lớn (>14) thì ta sẽ sử dụng big_icon
-//   Ngược lại thì sử dụng small_icon
+    // icon dùng để làm marker, có 2 loại icon là big và small
+    // Khi màn hình có độ phóng lớn (>14) thì ta sẽ sử dụng big_icon
+    // Ngược lại thì sử dụng small_icon
     Bitmap big_icon, small_icon;
-//   map sẽ lưu lại google map được trả về trong hàm onMapReady
+    // map sẽ lưu lại google map được trả về trong hàm onMapReady
     private GoogleMap map;
-//   2 list small markers và big_markers chứa 2 loại markers khi màn hình có độ zoom lớn và nhỏ
-//   Đã thử dùng một list sau đó khi độ zoom thay đổi thì thay đổi icon big thành small và ngược lại
-//   Nhưng hiệu xuất rất kém tại vì số station rất lớn nếu cứ load đi load lại thì rất phí tài nguyên
-//   Thay vào đó sử dụng 2 list và chỉ sử dụng setVisible
+    // 2 list small markers và big_markers chứa 2 loại markers khi màn hình có độ
+    // zoom lớn và nhỏ
+    // Đã thử dùng một list sau đó khi độ zoom thay đổi thì thay đổi icon big thành
+    // small và ngược lại
+    // Nhưng hiệu xuất rất kém tại vì số station rất lớn nếu cứ load đi load lại thì
+    // rất phí tài nguyên
+    // Thay vào đó sử dụng 2 list và chỉ sử dụng setVisible
     List<Marker> small_markers, big_markers;
-//   dest là marker tại vị trí mà ta search
+    // dest là marker tại vị trí mà ta search
     Marker dest;
-//   Đây là latLng default làm trung tâm của bản đồ, ,,
+    // Đây là latLng default làm trung tâm của bản đồ, ,,
     LatLng df = new LatLng(17.476124201967753, 106.61898038429614);
-//   2 biến zoom và pre_zoom giúp cho ta có thể biết được độ zoom trước và sau của bản đồ
-//   Được dùng để kiểm tra xem khi nào zoom vượt ngưỡng thì sẽ bật tắt các markers
+    // 2 biến zoom và pre_zoom giúp cho ta có thể biết được độ zoom trước và sau của
+    // bản đồ
+    // Được dùng để kiểm tra xem khi nào zoom vượt ngưỡng thì sẽ bật tắt các markers
     float zoom = 15, pre_zoom = 15;
 
-//   Đây là một launcher được dùng để lấy address, launcher này được sử dụng thay thế cho
-//   onActivityResult
+    // Đây là một launcher được dùng để lấy address, launcher này được sử dụng thay
+    // thế cho
+    // onActivityResult
     ActivityResultLauncher<Intent> getAddress = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -109,37 +116,37 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         showAddress();
                     }
                 }
-            }
-    );
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        Đầu tiên ta cần load user để xem người dùng đã đăng nhập hay chưa
-//        để hiển thị navigation cho đúng và giới hạn các chức năng cần đăng nhập
+        // Đầu tiên ta cần load user để xem người dùng đã đăng nhập hay chưa
+        // để hiển thị navigation cho đúng và giới hạn các chức năng cần đăng nhập
         user = UserAccount.getUser();
-//        Với máy ảo android 12 api 31 thì không cần loaddb trước
-//        Nhưng có vấn đề với android 12 api 32 thì nó không tìm thấy table nên ta cần load trước
+        // Với máy ảo android 12 api 31 thì không cần loaddb trước
+        // Nhưng có vấn đề với android 12 api 32 thì nó không tìm thấy table nên ta cần
+        // load trước
         initLoadDb();
-//        Khởi tạo bản đồ
+        // Khởi tạo bản đồ
         initMap();
-//        Ánh xạ các thành phần view
+        // Ánh xạ các thành phần view
         initUI();
-//        Bắt các sự kiện trên các view
+        // Bắt các sự kiện trên các view
         initListener();
     }
 
-//    Load database đơn giản chỉ cần gọi hàm onCreate của lớp DatabaseHelper
+    // Load database đơn giản chỉ cần gọi hàm onCreate của lớp DatabaseHelper
     private void initLoadDb() {
         DatabaseHelper helper = new DatabaseHelper(this);
         helper.onCreate(helper.getWritableDatabase());
     }
 
-//    Khởi tạo map
+    // Khởi tạo map
     private void initMap() {
-//        tạo 2 icon big và small cho để làm icon marker
+        // tạo 2 icon big và small cho để làm icon marker
         Drawable ic = getDrawable(R.drawable.ic_station_small);
         int width = ic.getIntrinsicWidth();
         int height = ic.getIntrinsicHeight();
@@ -154,35 +161,35 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         ic.setBounds(0, 0, width, height);
         ic.draw(new Canvas(big_icon));
 
-//        Khởi tạo trước 2 list markers
+        // Khởi tạo trước 2 list markers
         big_markers = new ArrayList<>();
         small_markers = new ArrayList<>();
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        // Obtain the SupportMapFragment and get notified when the map is ready to be
+        // used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fm_map);
         mapFragment.getMapAsync(this);
     }
 
-//    Ánh xạ các view trong layout
+    // Ánh xạ các view trong layout
     private void initUI() {
-//        Ánh xạ drawable_layout và navigation
+        // Ánh xạ drawable_layout và navigation
         drawable_layout = findViewById(R.id.drawable_layout);
         nv_group = findViewById(R.id.nv_group);
 
-//        hide title của toolbar
+        // hide title của toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-//        Tạo toggle lên icon đóng mở navigation
-        ActionBarDrawerToggle toggle =
-                new ActionBarDrawerToggle(this, drawable_layout,
-                        toolbar, R.string.open_nav, R.string.close_nav);
+        // Tạo toggle lên icon đóng mở navigation
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawable_layout,
+                toolbar, R.string.open_nav, R.string.close_nav);
         drawable_layout.addDrawerListener(toggle);
         toggle.syncState();
 
-//        Đổ data vào spinner chọn các vùng miền trong app
+        // Đổ data vào spinner chọn các vùng miền trong app
         side_spinner = findViewById(R.id.side_spinner);
         SideAdapter adapter = new SideAdapter(this, getSides());
         side_spinner.setAdapter(adapter);
@@ -191,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         ib_search = findViewById(R.id.ib_search);
         ib_find = findViewById(R.id.ib_find);
 
-//        Ánh xạ các view của header navigation
+        // Ánh xạ các view của header navigation
         View header = nv_group.getHeaderView(0);
         ll_logged = header.findViewById(R.id.ll_logged);
         iv_avatar = header.findViewById(R.id.iv_avatar);
@@ -203,7 +210,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         ib_logout = header.findViewById(R.id.ib_logout);
         btn_register = header.findViewById(R.id.btn_register);
 
-//        Khi người dùng đã login thì sẽ hiển thị header navigation là thông tin của người dùng
+        // Khi người dùng đã login thì sẽ hiển thị header navigation là thông tin của
+        // người dùng
         if (user == null) {
             ll_not_logged.setVisibility(View.VISIBLE);
             ll_logged.setVisibility(View.GONE);
@@ -225,10 +233,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-//    Bắt sự kiện
+    // Bắt sự kiện
     private void initListener() {
-//        Xử lý sự kiện khi click các item bên trong navigation
-//        Khi click vào 1 item thì đòng thời thu gọn navigation và thực hiện chức năng
+        // Xử lý sự kiện khi click các item bên trong navigation
+        // Khi click vào 1 item thì đòng thời thu gọn navigation và thực hiện chức năng
         nv_group.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -263,34 +271,34 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-//        Mở infomation activity của người dùng
+        // Mở infomation activity của người dùng
         btn_info.setOnClickListener(v -> {
             Intent intent = new Intent(this, InformationActivity.class);
             startActivity(intent);
         });
 
-//        Gọi hàm khi click vào button search, hàm đã được đinh nghĩa bên dưới
+        // Gọi hàm khi click vào button search, hàm đã được đinh nghĩa bên dưới
         btn_search.setOnClickListener(v -> {
             onSearchAddressSelected();
         });
 
-//        Gọi hàm khi click vào button find road, hàm đã được đinh nghĩa bên dưới
+        // Gọi hàm khi click vào button find road, hàm đã được đinh nghĩa bên dưới
         ib_find.setOnClickListener(v -> {
             onFindBusSelected();
         });
 
-//        Gọi hàm khi click vào button search, hàm đã được đinh nghĩa bên dưới
+        // Gọi hàm khi click vào button search, hàm đã được đinh nghĩa bên dưới
         ib_search.setOnClickListener(v -> {
             onSearchSelected();
         });
 
-//        chuyển đến activity đăng nhập
+        // chuyển đến activity đăng nhập
         btn_login.setOnClickListener(v -> {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         });
 
-//        đăng xuất và gọi lại đến main activity nhưng sẽ xóa hết các task activity cũ
+        // đăng xuất và gọi lại đến main activity nhưng sẽ xóa hết các task activity cũ
         ib_logout.setOnClickListener(v -> {
             UserAccount.logout();
             Intent intent = new Intent(this, MainActivity.class);
@@ -299,75 +307,75 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             finish();
         });
 
-//    Mở activity RegisterActivity khi click vào button đăng ký
+        // Mở activity RegisterActivity khi click vào button đăng ký
         btn_register.setOnClickListener(v -> {
             Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);
         });
     }
 
-//        launcher activity AddressSearchActivity để nhận kết quả trả về là một address
+    // launcher activity AddressSearchActivity để nhận kết quả trả về là một address
     public void onSearchAddressSelected() {
         Intent intent = new Intent(this, AddressSearchActivity.class);
         getAddress.launch(intent);
     }
 
-    //    Mở activity RouteActivity
+    // Mở activity RouteActivity
     public void onSearchSelected() {
         Intent intent = new Intent(this, RouteActivity.class);
         startActivity(intent);
     }
 
-    //    Mở activity FindRoadActivity
+    // Mở activity FindRoadActivity
     public void onFindBusSelected() {
         Intent intent = new Intent(this, FindRoadActivity.class);
         startActivity(intent);
     }
 
-    //    Mở activity SavedActivity
+    // Mở activity SavedActivity
     public void onSavedSelected() {
         Intent intent = new Intent(this, SavedActivity.class);
         startActivity(intent);
     }
 
-    //    Mở activity NotificationActivity
+    // Mở activity NotificationActivity
     private void onNotificationSelected() {
         Intent intent = new Intent(this, NotificationActivity.class);
         startActivity(intent);
     }
 
-    //    Mở activity UpdateActivity
+    // Mở activity UpdateActivity
     private void onUpdateSelected() {
         Intent intent = new Intent(this, UpdateActivity.class);
         startActivity(intent);
     }
 
-    //    Mở activity FeedbackActivity
+    // Mở activity FeedbackActivity
     private void onFeedbackSelected() {
         Intent intent = new Intent(this, FeedbackActivity.class);
         startActivity(intent);
     }
 
-    //    Mở activity RateActivity
+    // Mở activity RateActivity
     private void onRateSelected() {
         Intent intent = new Intent(this, RateActivity.class);
         startActivity(intent);
     }
 
-//    Mở activity InformationGroupActivity
+    // Mở activity InformationGroupActivity
     private void onInformationSelected() {
         Intent intent = new Intent(this, InformationGroupActivity.class);
         startActivity(intent);
     }
 
-//    Menu chỉ gồm 1 item là saved
+    // Menu chỉ gồm 1 item là saved
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar_saved, menu);
         return true;
     }
 
-//    Nếu item_saved được click thì sẽ gọi hàm onSavesSelected
+    // Nếu item_saved được click thì sẽ gọi hàm onSavesSelected
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -378,14 +386,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return true;
     }
 
-//    Show địa chỉ trả về lên thanh tìm kiếm và move camera tới địa chỉ vừa trả về
+    // Show địa chỉ trả về lên thanh tìm kiếm và move camera tới địa chỉ vừa trả về
     private void showAddress() {
         btn_search.setText(address.getAddress());
         df = new LatLng(address.getLat(), address.getLng());
         moveCamera();
     }
 
-//    Tạo các side mặc định
+    // Tạo các side mặc định
     public List<Side> getSides() {
         List<Side> sides = new ArrayList<>();
         sides.add(new Side("Quảng Bình", R.drawable.vn));
@@ -396,8 +404,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return sides;
     }
 
-//    di chuyển camera đến vị trí của df với độ zoom được thiết lập lại là 15
-//    marker dest sẽ được hiển thị lên trên cùng
+    // di chuyển camera đến vị trí của df với độ zoom được thiết lập lại là 15
+    // marker dest sẽ được hiển thị lên trên cùng
     public void moveCamera() {
         pre_zoom = 15;
         zoom = 15;
@@ -409,19 +417,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(df, zoom));
     }
 
-//    Vẽ mặc định các markers
+    // Vẽ mặc định các markers
     public void drawDefault() {
-//        Lấy tất cả latlng của station
+        // Lấy tất cả latlng của station
         List<LatLng> latLngs = StationDAO.getLatLngOfStations(this);
         int len = latLngs.size();
-//        Với các latlng của các stations, mỗi latlng sẽ vẽ 2 marker và ẩn marker của icon small đi
+        // Với các latlng của các stations, mỗi latlng sẽ vẽ 2 marker và ẩn marker của
+        // icon small đi
         for (int i = 0; i < len; i++) {
-            big_markers.add(map.addMarker(new MarkerOptions().position(latLngs.get(i)).icon(BitmapDescriptorFactory.fromBitmap(big_icon))));
-            small_markers.add(map.addMarker(new MarkerOptions().position(latLngs.get(i)).icon(BitmapDescriptorFactory.fromBitmap(small_icon))));
+            big_markers.add(map.addMarker(
+                    new MarkerOptions().position(latLngs.get(i)).icon(BitmapDescriptorFactory.fromBitmap(big_icon))));
+            small_markers.add(map.addMarker(
+                    new MarkerOptions().position(latLngs.get(i)).icon(BitmapDescriptorFactory.fromBitmap(small_icon))));
             small_markers.get(i).setVisible(false);
         }
-//        Bắt sự kiện move camera: nếu camera từ độ zoom từ < 14 lên > 14 thì sẽ show big marker
-//        Nếu camera từ độ zoom > 14 xuống < 14 thì sẽ show small marker
+        // Bắt sự kiện move camera: nếu camera từ độ zoom từ < 14 lên > 14 thì sẽ show
+        // big marker
+        // Nếu camera từ độ zoom > 14 xuống < 14 thì sẽ show small marker
         map.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
             public void onCameraMove() {
@@ -438,35 +450,35 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         moveCamera();
     }
 
-//    Hàm này ẩn tất cả các small_markers và show tất cả các big_markers
+    // Hàm này ẩn tất cả các small_markers và show tất cả các big_markers
     private void setBigIcon() {
         int len = big_markers.size();
         for (int i = 0; i < len; i++) {
-//            big_markers.get(i).setIcon(BitmapDescriptorFactory.fromBitmap(big_icon));
+            // big_markers.get(i).setIcon(BitmapDescriptorFactory.fromBitmap(big_icon));
             big_markers.get(i).setVisible(true);
             small_markers.get(i).setVisible(false);
         }
     }
 
-//    Hàm này ẩn tất cả các big_markers và show tất cả các small_markers
+    // Hàm này ẩn tất cả các big_markers và show tất cả các small_markers
     private void setSmallIcon() {
-//        int len = big_markers.size();
+        // int len = big_markers.size();
         int len = small_markers.size();
         for (int i = 0; i < len; i++) {
-//            big_markers.get(i).setIcon(BitmapDescriptorFactory.fromBitmap(big_icon));
+            // big_markers.get(i).setIcon(BitmapDescriptorFactory.fromBitmap(big_icon));
             big_markers.get(i).setVisible(false);
             small_markers.get(i).setVisible(true);
         }
     }
 
-//    khi map đã load xong thì gán googleMap và map sau đó vẽ các marker
+    // khi map đã load xong thì gán googleMap và map sau đó vẽ các marker
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
         drawDefault();
     }
 
-//    Khi bấm nút back, nếu drawable_layout đang mở thì cần đóng nó lại trước
+    // Khi bấm nút back, nếu drawable_layout đang mở thì cần đóng nó lại trước
     @Override
     public void onBackPressed() {
         if (drawable_layout.isDrawerOpen(GravityCompat.START)) {

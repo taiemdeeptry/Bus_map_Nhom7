@@ -49,7 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cs.close();
 //        Nếu chưa được cập nhật thì add vào một version
         if (!latest_version) {
-            sqLiteDatabase.execSQL("INSERT INTO latest_update VALUES(1, '20/12/2024', 0)");
+            sqLiteDatabase.execSQL("INSERT INTO latest_update VALUES(1, '21/5/2025', 0)");
         }
 
         sqLiteDatabase.execSQL(
